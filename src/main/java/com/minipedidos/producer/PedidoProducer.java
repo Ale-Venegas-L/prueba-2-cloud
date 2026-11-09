@@ -1,28 +1,19 @@
 package com.minipedidos.producer;
-import com.minipedidos.config.RabbitMQConfig;
-import com.minipedidos.model.Pedido;
 
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
 public class PedidoProducer {
-private final RabbitTemplate rabbitTemplate;
+    private static final String topico = "pedidos-creados";
+    private final KafkaTemplate<String, String> kafkaTemplate;
 
-    public PedidoProducer(RabbitTemplate rabbitTemplate) {
-        this.rabbitTemplate = rabbitTemplate;
+    public PedidoProducer(KafkaTemplate<String, String> kafkaTemplate) {
+        this.kafkaTemplate = kafkaTemplate;
     }
 
-    public void enviarPedido(Pedido pedido) {
-
-        rabbitTemplate.convertAndSend(
-                RabbitMQConfig.EXCHANGE_PEDIDOS,
-                RabbitMQConfig.ROUTING_KEY,
-                pedido
-        );
-
-        System.out.println(
-                "Pedido enviado a RabbitMQ: " + pedido.getPedidoId()
-        );
+    public void enviarPedido(String pedido) {
+        kafkaTemplate.send(topico, pedido);
+        System.out.println("Pedido enviado a Kafka; " + pedido);
     }
 }

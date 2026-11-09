@@ -11,6 +11,7 @@ exchangePrincipal="pedidos.exchange"
 colaPrincipal="pedidos.cola"
 routingKeyPrincipal="pedidos.nuevo"
 
+# topología de dlq/dlx
 exchangeDLX="pedidos.dlx"
 colaDLQ="pedidos.dlq"
 routingKeyError="pedidos.error"
@@ -67,7 +68,7 @@ curl -sf -u "$usuario:$passwd" \
     -d "{\"pattern\":\"^$colaPrincipal$\",\"definition\":{\"dead-letter-exchange\":\"$exchangeDLX\",\"dead-letter-routing-key\":\"$routingKeyError\"},\"priority\":0,\"apply-to\":\"queues\"}"
 echo "Política creada."
 
-# 7. Verificación final
+# 7. Verificación
 log "Verificación final"
 echo "--- Exchanges ---"
 curl -sf -u "$usuario:$passwd" "$HOST/api/exchanges/%2F" | python3 -c "import sys,json; [print(e['name'], e['type']) for e in json.load(sys.stdin)]"
