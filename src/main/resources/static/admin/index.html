@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <form id="form-admin">
+        <select name="operacion" id="operacion">
+            <option value="list">Listar tópicos</option>
+            <option value="consult">Consultar particiones y réplicas</option>
+            <option value="crear">Crear tópico</option>
+            <option value="config">Consultar configuraciones</option>
+            <option value="ret">Modificar retención</option>
+        </select>
+        <!-- Campos: topico, particiones, replicas, retencion -->
+        <button type="submit" id="btn-ejecutar" disabled>Ejecutar operación</button>
+
+    </form>
+    <div id="campos-admin">
+        <!-- Los campos se insertan dinámicamente por el JS -->
+    </div>
+
+    <div id="resultado" role="status" aria-live="polite"></div>
+    <script src="script.js"></script>
+
+</body>
+
+</html>
